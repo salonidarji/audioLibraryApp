@@ -1,4 +1,6 @@
 import React from "react";
+import * as Mui from '@material-ui/core';
+
 import BaseComponent from "./BaseComponent";
 import {CardComponent} from "./CardComponent";
 import {connect} from 'react-redux';
@@ -13,17 +15,18 @@ const HomeComponent=(props)=>{
 
    return (
    <BaseComponent title="Home Page" description="Welcome to Website">
-      <h3> List of Books </h3>
-      <div className="row">
+    
+    
       {
       props.books.map((book,index)=>{
         return(
-          <div key={index} className="col-3 mb-4">
+          <Mui.Grid item xs={3} key={index}>
+        
             <CardComponent book={book} />
-          </div>
+          </Mui.Grid>
         )
       })}
-      </div>
+    
       
     </BaseComponent>
    )

@@ -1,4 +1,6 @@
 import React from "react";
+import * as Mui from '@material-ui/core';
+
 import {MenuComponent} from "./MenuComponent";
 
 const BaseComponent = ({
@@ -10,17 +12,14 @@ const BaseComponent = ({
   return (
     <div>
       
-      <div className="container-fluid">
+      <Mui.Container  fixed >
 
       <MenuComponent />
 
-        <div className="jumbotron bg-dark text-white text-center">
-          <h2 className="display-6">{title}</h2>
-          <p className="lead">{description}</p>
-        </div>
+       
 
-        <div className={className}>{children}</div>
-      
+      <Mui.Grid container spacing={3}>{children}</Mui.Grid>
+      <br></br>
       <footer className="bg-dark mt-auto py-3">
         <div className="container-fluid bg-success text-white text-center py-3">
           <h4>Reach to me here...</h4>
@@ -32,7 +31,7 @@ const BaseComponent = ({
           </div>
         </div>
       </footer>
-    </div>
+    </Mui.Container>
     </div>
   );
 };
