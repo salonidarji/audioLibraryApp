@@ -10,7 +10,7 @@ const initialState = {
         
         return {
           ...state,
-          ...action.books
+          books:action.books
         }
         default:
           return state;
