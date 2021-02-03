@@ -5,9 +5,11 @@ import  * as Mui  from "@material-ui/core";
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { startLogOut } from '../actions/auth';
+import { connect } from 'react-redux';
 
 
-export const MenuComponent =()=> {
+ const MenuComponent =({startLogOut})=> {
     const classes = useStyles();
     const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,10 +25,7 @@ export const MenuComponent =()=> {
     setAnchorEl(null);
   };
 
-  const onLogout=()=>{
-    setAuth(false);
-    setAnchorEl(null);
-  }
+  
 
         return (
 
@@ -78,7 +77,7 @@ export const MenuComponent =()=> {
                 onClose={handleClose}
               >
                 <Mui.MenuItem onClick={handleClose} component={Link} to="/profile">Profile</Mui.MenuItem>
-                <Mui.MenuItem onClick={onLogout}>Logout</Mui.MenuItem>
+                <Mui.MenuItem onClick={startLogOut}>Logout</Mui.MenuItem>
               </Mui.Menu>
             </div>
           )}
@@ -145,4 +144,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   }));
+
+const mapDispatchToProps=dispatch=>({
+  startLogOut:()=> dispatch(startLogOut())
+});
+
+export default connect(undefined,mapDispatchToProps)(MenuComponent);
   

@@ -1,17 +1,27 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import HomeComponent from "./components/HomeComponent";
 import  "./App.css";
 import ProfileComponent from "./components/ProfileComponent";
+import LoginComponent from "./components/LoginComponent";
+import NotFoundComponent from "./components/NotFoundComponent";
+
+import createBrowserHistory from "history/createBrowserHistory";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+
+export const history = createBrowserHistory();
+
 const Routes = () => {
     return (
-      <BrowserRouter>
+      <Router history={history} >
         <Switch>
-          <Route path="/" exact component={HomeComponent} />
-          <Route path="/profile" exact component={ProfileComponent} />
-
+          <PublicRoute path="/" exact component={LoginComponent} />
+          <PrivateRoute path="/home" exact component={HomeComponent} />
+          <PrivateRoute path="/profile" exact component={ProfileComponent} />
+          <Route component={NotFoundComponent} />
         </Switch>
-      </BrowserRouter>  
+      </Router>  
     );
 }
 export default Routes;

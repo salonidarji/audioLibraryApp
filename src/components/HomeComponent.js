@@ -34,7 +34,7 @@ const HomeComponent=(props)=>{
 
 const mapStateToProps=state=>{
   return {
-    books:state.books
+    books:state.books.books
   }
 }
 export default connect(mapStateToProps)(HomeComponent);

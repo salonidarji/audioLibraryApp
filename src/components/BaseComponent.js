@@ -1,7 +1,7 @@
 import React from "react";
 import * as Mui from '@material-ui/core';
 
-import {MenuComponent} from "./MenuComponent";
+import MenuComponent from "./MenuComponent";
 
 const BaseComponent = ({
   title = "My Title",
