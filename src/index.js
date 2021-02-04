@@ -7,7 +7,7 @@ import store from "./store/index";
 import { Provider } from "react-redux";
 import { addBooks } from "./actions/index";
 import { login,logout } from "./actions/auth";
-import {firebase } from "./firebase";
+import database, {firebase } from "./firebase";
 
 let hasRendered = false;
 
@@ -34,6 +34,13 @@ firebase.auth().onAuthStateChanged((user)=>{
   if(user){
     
      console.log("auth user:", user);
+     database.ref(`users/${user.uid}`).set({
+           
+            name:user.displayName,
+            email:user.email 
+          
+           
+    });
     console.log("logged in");
     store.dispatch(login(user));
     store.dispatch(addBooks()).then(()=>{

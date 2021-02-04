@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import * as Mui from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import database from "../firebase";
+import store from '../store';
+import { history } from '../Routes';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -9,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 140,
+    justifyContent:'center',
+    alignSelf:"center"
+    
   },
   paper: {
     position: 'absolute',
@@ -23,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export const CardComponent=({
+
+const CardComponent=({
   book
 }
 )=>{
@@ -40,48 +48,65 @@ export const CardComponent=({
     setOpen(false);
   };
 
-  const bookTitle = book ? book.title : "A photo";
-  const bookAuthor = book ? book.authors : "A photo";
-  const bookPrice = book ? book.pageCount : "A photo";
-  const bookImage = book ? book.imageLinks['smallThumbnail'] : "A photo";
+  const bookTitle = book.title ? book.title : "title";
+  const bookAuthor = book.authors ? book.authors : "Robert";
+  const bookPublisher = book.publisher ? book.publisher : "john";
+  const bookPrice = book.pageCount ? book.pageCount : "510";
+  const bookPreview = book.previewLink ? book.previewLink : "N/A";
+  const bookImage = book.imageLinks ? book.imageLinks['smallThumbnail'] : "A photo";
   
-  function rand() {
-    return Math.round(Math.random() * 20) - 10;
+  const userId = store.getState().auth.user.uid;
+  console.log("uid in buy:",store.getState().auth.user.uid);
+
+  const onBuy=()=>{
+
+    database.ref(`users/${userId}/userBooks`).set({
+          
+           bookTitle:bookTitle
+       });
+
+       handleClose();
+       history.push('/profile');
+
+  
   }
   
-  function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-  
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
 
-  const [modalStyle] = useState(getModalStyle);
-
-  const CardDetail=(
-    <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Text in a modal</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
-      
-    </div>
-    );
 
   return (
       <>
    
-         <Mui.Modal  open={open}
+         <Mui.Dialog  open={open}
         onClose={handleClose}>
-           { CardDetail }
-         </Mui.Modal>
+          <Mui.DialogContent>
+      <Mui.Typography component="h2" variant="body1" color="textPrimary" id="simple-modal-title">{bookTitle}</Mui.Typography>
 
-         <Mui.Card className={classes.root} style={{ width: 'auto', height:'25rem', align:'center' }}>
-      <Mui.CardActionArea>
+          <Mui.CardMedia
+          className={classes.media}
+          image={bookImage}
+          title={bookTitle}
+          style={{ width: '10rem', height:'10rem'}}
+        />
+      <Mui.Typography component="div">
+       <h6>Publisher: <Mui.Typography variant="body2" color="textSecondary"> {bookPublisher}</Mui.Typography></h6>
+       <h6>Author: <Mui.Typography variant="body2" color="textSecondary"> {bookAuthor}</Mui.Typography></h6>
+       <h6>Price: <Mui.Typography variant="body2" color="textSecondary"> INR-{bookPrice}</Mui.Typography></h6>
+       <h6>Preview : <Mui.Link href={bookPreview}>{bookPreview}</Mui.Link></h6>
+       </Mui.Typography>
+       </Mui.DialogContent>
+       <Mui.DialogActions>
+       <Mui.Button size="small" variant="contained" color="primary" onClick={onBuy}>
+          Buy
+        </Mui.Button>
+       </Mui.DialogActions>
+       
+       
+      
+           
+         </Mui.Dialog>
+
+         <Mui.Card className={classes.root} onClick={handleOpen} style={{ width: 'auto', height:'25rem', align:'center' }}>
+      <Mui.CardActionArea >
         <Mui.CardMedia
           className={classes.media}
           image={bookImage}
@@ -101,20 +126,14 @@ export const CardComponent=({
           </Mui.Typography>
         </Mui.CardContent>
       </Mui.CardActionArea>
-      <Mui.CardActions>
-        <Mui.Button size="small" color="primary">
-          Buy
-        </Mui.Button>
-        <Mui.Button size="small" color="primary" onClick={handleOpen}>
-          Learn More
-        </Mui.Button>
-      </Mui.CardActions>
+     
     </Mui.Card>
      </>  
    
-   
-        
-        
+     
     );
 
 }
+
+
+export default CardComponent;

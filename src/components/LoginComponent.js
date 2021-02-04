@@ -15,10 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  const onSubmit =()=>{
-
-    console.log()
-  }
+ 
 const LoginComponent=({startLogin})=> {
     const classes = useStyles();
     return (

@@ -2,7 +2,7 @@ import React from "react";
 import * as Mui from '@material-ui/core';
 
 import BaseComponent from "./BaseComponent";
-import {CardComponent} from "./CardComponent";
+import CardComponent from "./CardComponent";
 import {connect} from 'react-redux';
 
 import store from "../store/index";
